@@ -34,7 +34,7 @@ public class UsersDao {
         } catch (Exception e) {
             System.out.println(e);
         }
-System.out.println(status);
+
         if (status) {
             try {
                 String dbPassword = rs.getString("UserPass");
@@ -49,7 +49,7 @@ System.out.println(status);
                 System.out.println(e);
             }
         }
-System.out.println(UserPass);   
+        
         return UserPass;
     }
 

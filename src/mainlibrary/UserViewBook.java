@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -252,10 +253,13 @@ public class UserViewBook extends javax.swing.JFrame {
 
     private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
         // TODO add your handling code here:
-        if (SearchField.getText() == "") {
-            JOptionPane.showMessageDialog(UserViewBook.this, "Search Filed is Empty", "Search Error!", JOptionPane.ERROR_MESSAGE);
+        Scanner scanSearch = new Scanner(SearchField.getText()).useDelimiter("\n");  // Create a Scanner object
+        if (!scanSearch.hasNext("^[A-Za-z0-9 .]*$")) {
+            JOptionPane.showMessageDialog(UserViewBook.this, "Search Filed is Empty or nor allowed characters", "Search Error!", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-
+        String search = scanSearch.nextLine();
+        
         if (!ALL.isSelected()) {
             if (!NotIssued.isSelected()) {
                 ALL.setEnabled(true);
@@ -277,7 +281,7 @@ public class UserViewBook extends javax.swing.JFrame {
         if (NameRadio.isSelected()) {
             // String Data[][]=null;
             //  String Column[]=null;
-            String Search = "%" + SearchField.getText() + "%";
+            String Search = "%" + search + "%";
             try (Connection Con = DB.getConnection()) {
                 PreparedStatement ps = Con.prepareStatement("select A.BookID, A.BookName,A.Genre,A.Author,A.Publisher, A.Row,A.Shelf, IssuedBook.UserID from (select * from Books where BookName like ?) as A left outer join IssuedBook on A.BookID= IssuedBook.BookID", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, Search);
@@ -338,7 +342,7 @@ public class UserViewBook extends javax.swing.JFrame {
 
             // String Data[][]=null;
             //  String Column[]=null;
-            String Search = "%" + SearchField.getText() + "%";
+            String Search = "%" + search + "%";
             try (Connection Con = DB.getConnection()) {
                 PreparedStatement ps = Con.prepareStatement("select A.BookID, A.BookName,A.Genre,A.Author,A.Publisher, A.Row,A.Shelf, IssuedBook.UserID from (select * from Books where Author like ?) as A left outer join IssuedBook on A.BookID= IssuedBook.BookID", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, Search);

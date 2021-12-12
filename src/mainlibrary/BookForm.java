@@ -6,6 +6,7 @@
 package mainlibrary;
 
 import java.awt.Frame;
+import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static mainlibrary.LibrarianSuccess.ThisLogined;
@@ -236,12 +237,83 @@ public class BookForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String BookN = BookName.getText();
-        String AuthorN = Author.getText();
-        String PublisherN = Publisher.getText();
-        String ShelfN = Shelf.getText();
-        String RowN = Row.getText();
-        String GenreN = Genre.getText();
+        Scanner scanBookN = new Scanner(BookName.getText()).useDelimiter("\n");  // Create a Scanner object
+        if (!scanBookN.hasNext("^[A-Za-z0-9 .]*$")) {
+            JOptionPane.showMessageDialog(BookForm.this, "Sorry, Book can't be added!","Publisher Error!", JOptionPane.ERROR_MESSAGE);
+            BookName.setText("");
+            Author.setText("");
+            Publisher.setText("");
+            Shelf.setText("");
+            Row.setText("");
+            Genre.setText("");
+            return;
+        }
+        String BookN = scanBookN.nextLine();        
+        
+        Scanner scanAuthorN = new Scanner(Author.getText()).useDelimiter("\n");  // Create a Scanner object
+        if (!scanAuthorN.hasNext("^[A-Za-z .]*$")) {
+            JOptionPane.showMessageDialog(BookForm.this, "Sorry, Book can't be added!","Publisher Error!", JOptionPane.ERROR_MESSAGE);
+            BookName.setText("");
+            Author.setText("");
+            Publisher.setText("");
+            Shelf.setText("");
+            Row.setText("");
+            Genre.setText("");
+            return;
+        }
+        String AuthorN = scanAuthorN.nextLine();
+
+        Scanner scanPublisherN = new Scanner(Publisher.getText()).useDelimiter("\n");  // Create a Scanner object
+        if (!scanPublisherN.hasNext("^[A-Za-z0-9 .]*$")) {
+            JOptionPane.showMessageDialog(BookForm.this, "Sorry, Book can't be added!","Publisher Error!", JOptionPane.ERROR_MESSAGE);
+            BookName.setText("");
+            Author.setText("");
+            Publisher.setText("");
+            Shelf.setText("");
+            Row.setText("");
+            Genre.setText("");
+            return;
+        }
+        String PublisherN = scanPublisherN.nextLine();
+
+        Scanner scanShelfN = new Scanner(Shelf.getText());  // Create a Scanner object
+        if (!scanShelfN.hasNext("^[A-Za-z0-9]*$")) {
+            JOptionPane.showMessageDialog(BookForm.this, "Sorry, Book can't be added!","Publisher Error!", JOptionPane.ERROR_MESSAGE);
+            BookName.setText("");
+            Author.setText("");
+            Publisher.setText("");
+            Shelf.setText("");
+            Row.setText("");
+            Genre.setText("");
+            return;
+        }
+        String ShelfN = scanShelfN.next();
+
+        Scanner scanRowN = new Scanner(Row.getText());  // Create a Scanner object
+        if (!scanRowN.hasNext("^[A-Za-z0-9]*$")) {
+            JOptionPane.showMessageDialog(BookForm.this, "Sorry, Book can't be added!","Publisher Error!", JOptionPane.ERROR_MESSAGE);
+            BookName.setText("");
+            Author.setText("");
+            Publisher.setText("");
+            Shelf.setText("");
+            Row.setText("");
+            Genre.setText("");
+            return;
+        }
+        String RowN = scanRowN.next();
+
+        Scanner scanGenreN = new Scanner(Genre.getText());  // Create a Scanner object
+        if (!scanGenreN.hasNext("^[A-Za-z0-9]*$")) {
+            JOptionPane.showMessageDialog(BookForm.this, "Sorry, Book can't be added!","Publisher Error!", JOptionPane.ERROR_MESSAGE);
+            BookName.setText("");
+            Author.setText("");
+            Publisher.setText("");
+            Shelf.setText("");
+            Row.setText("");
+            Genre.setText("");
+            return;
+        }       
+        String GenreN = scanGenreN.next();
 
         if (BookDao.PublisherValidate(PublisherN)) {
 
@@ -250,6 +322,12 @@ public class BookForm extends javax.swing.JFrame {
                 ; // JOptionPane.showMessageDialog(BookForm.this, "Sorry, Publisher can't be added!","Publisher Error!", JOptionPane.ERROR_MESSAGE);
             }
         }
+        System.out.println(BookN);
+        System.out.println(AuthorN);
+        System.out.println(PublisherN);
+        System.out.println(ShelfN);
+        System.out.println(RowN);
+        System.out.println(GenreN);
         if (BookDao.SaveBook(BookN, AuthorN, PublisherN, ShelfN, RowN, GenreN) != 0) {
             JOptionPane.showMessageDialog(BookForm.this, "The Book is added!", "Book Added!", JOptionPane.ERROR_MESSAGE);
             BookName.setText("");

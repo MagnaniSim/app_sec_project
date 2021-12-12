@@ -6,6 +6,7 @@
 package mainlibrary;
 
 import javax.swing.JOptionPane;
+import java.util.Scanner;
 
 /**
  *
@@ -161,8 +162,22 @@ public class UserLogin extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String User;
-        User = username.getText();
-        String Pass = String.valueOf(password.getPassword());
+        Scanner scanUser = new Scanner(username.getText());  // Create a Scanner object
+        if (!scanUser.hasNext()) {
+            JOptionPane.showMessageDialog(UserLogin.this, "Sorry, Username or Password Error", "Login Error!", JOptionPane.ERROR_MESSAGE);
+            username.setText("");
+            password.setText("");
+            return;
+        }
+        User = scanUser.next();
+        Scanner scanPwd = new Scanner(String.valueOf(password.getPassword()));  // Create a Scanner object
+        if (!scanPwd.hasNext()) {
+            JOptionPane.showMessageDialog(UserLogin.this, "Sorry, Username or Password Error", "Login Error!", JOptionPane.ERROR_MESSAGE);
+            username.setText("");
+            password.setText("");
+            return;
+        }
+        String Pass = scanPwd.next();
         System.out.println(User + " " + Pass);
         String UserPassSaltPepper = UsersDao.validate(User, Pass);
         if (UserPassSaltPepper != null) {

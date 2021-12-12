@@ -6,6 +6,7 @@
 package mainlibrary;
 
 import javax.swing.JOptionPane;
+import java.util.Scanner;
 
 /**
  *
@@ -164,10 +165,23 @@ public class LibrarianLogin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String Uname;
-        Uname = username.getText();
-        String Pass;
-        Pass = String.valueOf(password.getPassword());
+        
+        Scanner scanUname = new Scanner(username.getText());  // Create a Scanner object
+        if (!scanUname.hasNext()) {
+            JOptionPane.showMessageDialog(LibrarianLogin.this, "Sorry, Username or Password Error", "Login Error!", JOptionPane.ERROR_MESSAGE);
+            username.setText("");
+            password.setText("");
+            return;
+        }
+        String Uname = scanUname.next();
+        Scanner scanPwd = new Scanner(String.valueOf(password.getPassword()));  // Create a Scanner object
+        if (!scanPwd.hasNext()) {
+            JOptionPane.showMessageDialog(LibrarianLogin.this, "Sorry, Username or Password Error", "Login Error!", JOptionPane.ERROR_MESSAGE);
+            username.setText("");
+            password.setText("");
+            return;
+        }
+        String Pass = scanPwd.next();
         System.out.println(Uname + " " + Pass);
         String LibrarianPassSaltPepper = LibrarianDao.validate(Uname, Pass);
         if (LibrarianPassSaltPepper != null) {

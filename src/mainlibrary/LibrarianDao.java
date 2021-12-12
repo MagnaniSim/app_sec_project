@@ -62,7 +62,7 @@ public class LibrarianDao {
         } catch (Exception e) {
             System.out.println(e);
         }
-System.out.println(status);
+
         if (status) {
             try {
                 String dbPassword = rs.getString("Password");
@@ -77,7 +77,7 @@ System.out.println(status);
                 System.out.println(e);
             }
         }
-System.out.println(LibrarianPass);   
+  
         return LibrarianPass;
     }
 
