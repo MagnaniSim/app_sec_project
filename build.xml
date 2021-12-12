@@ -7,7 +7,7 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="securityProject" default="default" basedir=".">
+<project name="securityProject" default="default" basedir="." xmlns:sonar="antlib:org.sonar.ant">
     <description>Builds, tests, and runs the project securityProject.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
@@ -70,7 +70,7 @@
     nbproject/build-impl.xml file. 
 
     -->
-	xmlns:sonar="antlib:org.sonar.ant">
+	
   
     <!-- Define the SonarQube global properties (the most usual way is to pass these properties via the command line) -->
     <property name="sonar.host.url" value="http://localhost:9000" />
