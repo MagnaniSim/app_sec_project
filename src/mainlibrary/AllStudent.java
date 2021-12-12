@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -244,10 +245,18 @@ public class AllStudent extends javax.swing.JFrame {
         while (model.getRowCount() > 0) {
             model.removeRow(model.getRowCount() - 1);
         }
+
+        Scanner scanSearch = new Scanner(SearchField.getText()).useDelimiter("\n");  // Create a Scanner object
+        if (!scanSearch.hasNext("^[A-Za-z0-9 .@]*$")) {
+            JOptionPane.showMessageDialog(AllStudent.this, "Wrong Search input", "No Selection!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String searchStr = scanSearch.nextLine();         
+        
         if (NameRadio.isSelected()) {
             // String Data[][]=null;
             //  String Column[]=null;
-            String Search = "%" + SearchField.getText() + "%";
+            String Search = "%" + searchStr + "%";
             try (Connection Con = DB.getConnection()) {
                 PreparedStatement ps = Con.prepareStatement("select * from Users where UserName like ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, Search);
@@ -288,7 +297,7 @@ public class AllStudent extends javax.swing.JFrame {
             }
         } else if (AuthorRadio.isSelected()) {
 
-            String Search = "%" + SearchField.getText() + "%";
+            String Search = "%" + searchStr + "%";
             try (Connection Con = DB.getConnection()) {
                 PreparedStatement ps = Con.prepareStatement("select * from Users where Email like ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, Search);
