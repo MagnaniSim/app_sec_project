@@ -56,6 +56,10 @@ public static int save(String callno,String name,String author,String publisher,
     public static int SaveBook(String BookN, String AuthorN, String PublisherN, String ShelfN, String RowN, String GenreN) {
             int status= 0;
         try(Connection con = DB.getConnection()) {
+                // This query fails with 
+                // java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds 
+                // to your MySQL server version for the right syntax to use near 'Row) values( ...
+                // Not sure about why??
 		PreparedStatement ps=con.prepareStatement("insert into Books(BookName,Author,Genre,Publisher,Shelf,Row) values(?,?,?,?,?,?)");
 		ps.setString(1,BookN);
                 ps.setString(2, AuthorN);
