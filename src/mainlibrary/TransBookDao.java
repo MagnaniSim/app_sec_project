@@ -20,11 +20,11 @@ public class TransBookDao {
         return status;
     }
 
-    public static boolean BookValidate(String BookID) {
+    public static boolean BookValidate(Integer BookID) {
         boolean status = false;
         try (Connection con = DB.getConnection()) {
             PreparedStatement ps = con.prepareStatement("select * from Books where BookID = ?");
-            ps.setString(1, BookID);
+            ps.setString(1, BookID.toString());
             ResultSet rs = ps.executeQuery();
             status = rs.next();
             con.close();
@@ -34,11 +34,11 @@ public class TransBookDao {
         return status;
     }
 
-    public static boolean UserValidate(String UserID) {
+    public static boolean UserValidate(Integer UserID) {
         boolean status = false;
         try (Connection con = DB.getConnection()) {
             PreparedStatement ps = con.prepareStatement("select * from Users where UserID = ?");
-            ps.setString(1, UserID);
+            ps.setString(1, UserID.toString());
             ResultSet rs = ps.executeQuery();
             status = rs.next();
             con.close();
@@ -91,6 +91,7 @@ public class TransBookDao {
             con.close();
         } catch (Exception e) {
             System.out.println(e);
+            status = 0;
         }
         return status;
     }
@@ -129,16 +130,17 @@ public class TransBookDao {
         boolean status = false;
         int num = 0;
         try (Connection con = DB.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select * from Book_Count UserID=?");
-            ps.setInt(2, UserID);
+            PreparedStatement ps = con.prepareStatement("select * from Book_Count where UserID=?");
+            ps.setInt(1, UserID);
             ResultSet rs = ps.executeQuery();
             status = rs.next();
             num = rs.getInt("BookNo");
             con.close();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("FUMATE" + e);
+            return 0;
         }
-        if (num == 5) {
+        if ((num == 5 || !status)) {
             return 0;
         } else {
             return 1;

@@ -6,6 +6,7 @@
 package mainlibrary;
 
 import java.util.Calendar;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 /**
@@ -183,16 +184,26 @@ public class ReturnBookForm extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
-        int BookIDV;
-        BookIDV = Integer.parseInt(BookID.getText());
-        int UserIDV;
-        UserIDV = Integer.parseInt(UserID.getText());
+        Scanner scanBookIDV = new Scanner(BookID.getText());  // Create a Scanner object
+        if (!scanBookIDV.hasNextInt()) {
+            JOptionPane.showMessageDialog(ReturnBookForm.this, "Wrong book ID", "Returning Book Successfull!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Integer BookIDV = scanBookIDV.nextInt();
+
+        
+        Scanner scanUserIDV = new Scanner(UserID.getText());  // Create a Scanner object
+        if (!scanUserIDV.hasNextInt()) {
+            JOptionPane.showMessageDialog(ReturnBookForm.this, "Wrong User ID", "Returning Book Successfull!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }        
+        Integer UserIDV = scanUserIDV.nextInt();;
 
         String IFDate = IYear.getText() + "-" + IMonth.getText() + "-" + IDate.getText();
         System.out.println(IFDate);
 
         //Date IFDDate = cal.getDate();
-        if (TransBookDao.BookValidate(BookID.getText()) && TransBookDao.UserValidate(UserID.getText())) {
+        if (TransBookDao.BookValidate(BookIDV) && TransBookDao.UserValidate(UserIDV)) {
             if (TransBookDao.CheckIssuedBook(BookIDV)) {
 
                 if (TransBookDao.ReturnBook(BookIDV, UserIDV) != 0) {
@@ -207,9 +218,9 @@ public class ReturnBookForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(ReturnBookForm.this, "The Book  is NOT Issued by THIS User!", "Issuing Book Error!", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            if (TransBookDao.UserValidate(UserID.getText())) {
+            if (TransBookDao.UserValidate(UserIDV)) {
                 JOptionPane.showMessageDialog(ReturnBookForm.this, "The Book  is NOT available in Library Database!", "Returning Book Error!", JOptionPane.ERROR_MESSAGE);
-            } else if (TransBookDao.BookValidate(BookID.getText())) {
+            } else if (TransBookDao.BookValidate(BookIDV)) {
                 JOptionPane.showMessageDialog(ReturnBookForm.this, "The User is NOT available in Library Database!", "Returning Book Error!", JOptionPane.ERROR_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(ReturnBookForm.this, "The Book  and User are NOT available in Library Database!", "Returning Book Error!", JOptionPane.ERROR_MESSAGE);

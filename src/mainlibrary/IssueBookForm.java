@@ -7,6 +7,7 @@ package mainlibrary;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 import static mainlibrary.LibrarianSuccess.ThisLogined;
 
@@ -240,17 +241,56 @@ public class IssueBookForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        int BookIDV;
-        BookIDV = Integer.parseInt(BookID.getText());
-        int UserIDV;
-        UserIDV = Integer.parseInt(UserID.getText());
+        Scanner scanBookIDV = new Scanner(BookID.getText());  // Create a Scanner object
+        if (!scanBookIDV.hasNextInt()) {
+            JOptionPane.showMessageDialog(IssueBookForm.this, "Wrong book ID", "Issue Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Integer BookIDV = scanBookIDV.nextInt();
+
+        
+        Scanner scanUserIDV = new Scanner(UserID.getText());  // Create a Scanner object
+        if (!scanUserIDV.hasNextInt()) {
+            JOptionPane.showMessageDialog(IssueBookForm.this, "Wrong User ID", "Issue Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }        
+        Integer UserIDV = scanUserIDV.nextInt();
 
         String IFDate = IYear.getText() + "-" + IMonth.getText() + "-" + IDate.getText();
-        String RFDate = RYear.getText() + "-" + RMonth.getText() + "-" + RDate.getText();
+        
+        Scanner scanRYearV = new Scanner(RYear.getText());  // Create a Scanner object
+        if (!scanRYearV.hasNextInt()) {
+            JOptionPane.showMessageDialog(IssueBookForm.this, "Wrong Return Year", "Issue Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }        
+        Integer RYearV = scanRYearV.nextInt();
+        Scanner scanRMonthV = new Scanner(RMonth.getText());  // Create a Scanner object
+        if (!scanRMonthV.hasNextInt()) {
+            JOptionPane.showMessageDialog(IssueBookForm.this, "Wrong Return Month", "Issue Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }        
+        Integer RMonthV = scanRMonthV.nextInt();
+        if ((RMonthV <= 0) || (RMonthV > 12)) {
+            JOptionPane.showMessageDialog(IssueBookForm.this, "Wrong Return Month", "Issue Error!", JOptionPane.ERROR_MESSAGE);
+            return;  
+        }
+        Scanner scanRDateV = new Scanner(RDate.getText());  // Create a Scanner object
+        if (!scanRDateV.hasNextInt()) {
+            JOptionPane.showMessageDialog(IssueBookForm.this, "Wrong Return Day", "Issue Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }        
+        Integer RDateV = scanRDateV.nextInt();        
+        if ((RDateV <= 0) || (RDateV > 31)) {
+            JOptionPane.showMessageDialog(IssueBookForm.this, "Wrong Return Day", "Issue Error!", JOptionPane.ERROR_MESSAGE);
+            return;  
+        }      
+        
+        String RFDate = RYearV.toString() + "-" + RMonthV.toString()+ "-" + RDateV.toString();
         System.out.println(IFDate);
+        System.out.println(RFDate);
 
         //Date IFDDate = cal.getDate();
-        if (TransBookDao.BookValidate(BookID.getText()) && TransBookDao.UserValidate(UserID.getText())) {
+        if (TransBookDao.BookValidate(BookIDV) && TransBookDao.UserValidate(UserIDV)) {
 
             if (TransBookDao.Check(UserIDV) == 0) {
                 JOptionPane.showMessageDialog(IssueBookForm.this, "User has already Issued Maximum No of Books", "Issue Error!", JOptionPane.ERROR_MESSAGE);
@@ -266,9 +306,9 @@ public class IssueBookForm extends javax.swing.JFrame {
             }
 
         } else {
-            if (TransBookDao.UserValidate(UserID.getText())) {
+            if (TransBookDao.UserValidate(UserIDV)) {
                 JOptionPane.showMessageDialog(IssueBookForm.this, "The Book  is NOT available in Library Database!", "Issuing Book Error!", JOptionPane.ERROR_MESSAGE);
-            } else if (TransBookDao.BookValidate(BookID.getText())) {
+            } else if (TransBookDao.BookValidate(BookIDV)) {
                 JOptionPane.showMessageDialog(IssueBookForm.this, "The User is NOT available in Library Database!", "Issuing Book Error!", JOptionPane.ERROR_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(IssueBookForm.this, "The Book  and User are NOT available in Library Database!", "Issuing Book Error!", JOptionPane.ERROR_MESSAGE);
