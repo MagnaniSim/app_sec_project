@@ -90,6 +90,7 @@ public class UsersDao {
             con.close();
         } catch (Exception e) {
             System.out.println(e);
+            status = 0;
         }
         return status;
 

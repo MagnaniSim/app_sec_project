@@ -6,7 +6,9 @@
 package mainlibrary;
 
 import java.util.Calendar;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -136,7 +138,7 @@ public class UserForm extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(Position, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
                             .addComponent(UserName, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
@@ -161,8 +163,8 @@ public class UserForm extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(141, 141, 141)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(140, 140, 140)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(UserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(27, 27, 27)
@@ -228,13 +230,50 @@ public class UserForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String User = UserName.getText();
+        Scanner scanUser = new Scanner(UserName.getText());  // Create a Scanner object
+        if (!scanUser.hasNext("^[A-Za-z0-9]*$")) {
+            JOptionPane.showMessageDialog(UserForm.this, "UserName Not valid", "Adding new User Error!", JOptionPane.ERROR_MESSAGE);
+            UserName.setText("");
+            Password.setText("");            
+            return;
+        }
+        String User = scanUser.next();
+        if (User.length() > 30) {
+            JOptionPane.showMessageDialog(UserForm.this, "UserName Not valid", "Adding new User Error!", JOptionPane.ERROR_MESSAGE);
+            UserName.setText("");
+            Password.setText("");            
+            return;
+        }
+        
         if (UsersDao.CheckIfAlready(User)) {
             JOptionPane.showMessageDialog(UserForm.this, "UserName already taken!", "Adding new User Error!", JOptionPane.ERROR_MESSAGE);
         } else {
-            User = UserName.getText();
-            String UserPass = String.valueOf(Password.getPassword());
-            String UserEmail = Email.getText();
+            Scanner scanUserPass = new Scanner(String.valueOf(Password.getPassword()));  // Create a Scanner object
+            if (!scanUserPass.hasNext("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")) {
+                JOptionPane.showMessageDialog(UserForm.this, "Password Not valid. Minimum eight characters, at least one uppercase letter, one lowercase letter and one number", "Adding new User Error!", JOptionPane.ERROR_MESSAGE);
+                UserName.setText("");
+                Password.setText("");                
+                return;
+            }
+            String UserPass = scanUserPass.next();
+
+            Scanner scanEmail = new Scanner(Email.getText()).useDelimiter("\n");  // Create a Scanner object
+            if (!scanEmail.hasNext()) {
+                JOptionPane.showMessageDialog(UserForm.this, "Email Not valid1", "Adding new User Error!", JOptionPane.ERROR_MESSAGE);
+                UserName.setText("");
+                Password.setText("");  
+                return;
+            }
+            String UserEmail = scanEmail.nextLine();
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+            Pattern emailPattern = Pattern.compile(emailRegex);
+            if (!emailPattern.matcher(UserEmail).matches()) {                
+                JOptionPane.showMessageDialog(UserForm.this, "Email Not valid2", "Adding new User Error!", JOptionPane.ERROR_MESSAGE);
+                UserName.setText("");
+                Password.setText("");  
+                return;
+            }
+            
             Calendar cal = Calendar.getInstance();
             String Date;
             String RDate = String.valueOf(cal.get(Calendar.DATE));
