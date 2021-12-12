@@ -5,6 +5,7 @@
  */
 package mainlibrary;
 
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 /**
@@ -69,7 +70,7 @@ public class DeleteBook extends javax.swing.JFrame {
         });
 
         jLabel3.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
-        jLabel3.setText("User ID");
+        jLabel3.setText("Username");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,12 +122,34 @@ public class DeleteBook extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String Pass = String.valueOf(password.getPassword());
-        System.out.println(UserName.getText() + " " + Pass );
-        String LibrarianPassSaltPepper = LibrarianDao.validate(UserName.getText(), Pass);
+        Scanner scanUser = new Scanner(UserName.getText());  // Create a Scanner object
+        if (!scanUser.hasNext()) {
+            JOptionPane.showMessageDialog(DeleteBook.this, "Wrong Username or Password", "Error!", JOptionPane.ERROR_MESSAGE);
+            UserName.setText("");
+            password.setText("");
+            return;
+        }
+        String User = scanUser.next();
+        Scanner scanPwd = new Scanner(String.valueOf(password.getPassword()));  // Create a Scanner object
+        if (!scanPwd.hasNext()) {
+            JOptionPane.showMessageDialog(DeleteBook.this, "Wrong Username or Password", "Error!", JOptionPane.ERROR_MESSAGE);
+            UserName.setText("");
+            password.setText("");
+            return;
+        }
+        String Pass = scanPwd.next();        
+        
+        String LibrarianPassSaltPepper = LibrarianDao.validate(User, Pass);
         if (LibrarianPassSaltPepper != null) {
-
-            int BookIDV = Integer.parseInt(BookID.getText());
+            Scanner scanBookIDV = new Scanner(BookID.getText());  // Create a Scanner object
+            if (!scanBookIDV.hasNextInt()) {
+                JOptionPane.showMessageDialog(DeleteBook.this, "Wrong book ID", "Error!", JOptionPane.ERROR_MESSAGE);
+                UserName.setText("");
+                password.setText("");
+                return;
+            }
+            Integer BookIDV = scanBookIDV.nextInt();
+            
             if (TransBookDao.CheckIssuedBook(BookIDV)) {
                 JOptionPane.showMessageDialog(DeleteBook.this, "Book is Issued", "Error!", JOptionPane.ERROR_MESSAGE);
             } else {
@@ -139,6 +162,10 @@ public class DeleteBook extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(DeleteBook.this, "Unable to delete book", "Error!", JOptionPane.ERROR_MESSAGE);
                 }
             }
+        } else {
+            JOptionPane.showMessageDialog(DeleteBook.this, "Wrong Username or Password", "Error!", JOptionPane.ERROR_MESSAGE);
+            UserName.setText("");
+            password.setText("");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

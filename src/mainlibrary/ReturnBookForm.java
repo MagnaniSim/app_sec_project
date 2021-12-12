@@ -197,7 +197,7 @@ public class ReturnBookForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(ReturnBookForm.this, "Wrong User ID", "Returning Book Successfull!", JOptionPane.ERROR_MESSAGE);
             return;
         }        
-        Integer UserIDV = scanUserIDV.nextInt();;
+        Integer UserIDV = scanUserIDV.nextInt();
 
         String IFDate = IYear.getText() + "-" + IMonth.getText() + "-" + IDate.getText();
         System.out.println(IFDate);
