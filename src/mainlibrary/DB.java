@@ -23,13 +23,20 @@ public class DB {
         Connection con = null;
         try {
             Properties props = new Properties();
-            props.put("user", user);
-            props.put("password", "0@#d&L9hGitN2W3lxQEo");
+//            Dotenv dotenv = Dotenv.load();
+//            String userName = dotenv.get(“DB_USERNAME”);
+//            String userPwd = dotenv.get(“DB_PASSWORD”);
+//            props.put("user", userName);
+//            props.put("password", userPwd);
+
+            props.put("user", System.getProperty("dbUsername"));
+            props.put("password", System.getProperty("dbPassword"));
+            
             props.put("useUnicode", "true");
             props.put("useServerPrepStmts", "false"); // use client-side prepared statement
             props.put("characterEncoding", "UTF-8"); // ensure charset is utf8 here
 
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(connection, props);
         } catch (Exception e) {
             System.out.println(e);

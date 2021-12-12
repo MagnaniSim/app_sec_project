@@ -122,6 +122,7 @@ public class DeleteBook extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String Pass = String.valueOf(password.getPassword());
+        System.out.println(UserName.getText() + " " + Pass );
         if (LibrarianDao.validate(UserName.getText(), Pass)) {
 
             int BookIDV = Integer.parseInt(BookID.getText());

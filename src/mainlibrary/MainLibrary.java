@@ -15,6 +15,12 @@ public class MainLibrary extends javax.swing.JFrame {
      * Creates new form MainLibrary
      */
     public MainLibrary() {
+        SecretsReader secretsReader = new SecretsReader();
+        try {
+        secretsReader.getPropValues();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         initComponents();
     }
 
