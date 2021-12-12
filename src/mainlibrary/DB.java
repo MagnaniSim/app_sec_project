@@ -16,7 +16,7 @@ import java.util.Properties;
  */
 public class DB {
 
-    public static String user = "root";
+    public static String user = "user";
     public static String connection = "jdbc:mysql://localhost:3306/library";
     
     public static Connection getConnection() {
@@ -24,7 +24,7 @@ public class DB {
         try {
             Properties props = new Properties();
             props.put("user", user);
-            props.put("password", "your password here");
+            props.put("password", "0@#d&L9hGitN2W3lxQEo");
             props.put("useUnicode", "true");
             props.put("useServerPrepStmts", "false"); // use client-side prepared statement
             props.put("characterEncoding", "UTF-8"); // ensure charset is utf8 here
