@@ -17,7 +17,8 @@ import BCrypt.*;
  */
 public class UsersDao {
 
-    public static boolean validate(String name, String password) {
+    public static String validate(String name, String password) {
+        String UserPass = null;
         boolean status = false;
         ResultSet rs = null;
         Connection con = null;
@@ -32,12 +33,12 @@ public class UsersDao {
             status = rs.next();
         } catch (Exception e) {
             System.out.println(e);
-            status = false;
         }
 System.out.println(status);
         if (status) {
             try {
                 String dbPassword = rs.getString("UserPass");
+                
 //        String salt = BCrypt.gensalt();
 //        String UserPassPepper2 = System.getProperty("pwdPepper") + dbPassword;
 //        String UserPassSaltPepper2 = BCrypt.hashpw(UserPassPepper2, salt);
@@ -46,19 +47,17 @@ System.out.println(status);
 //        System.out.println(UserPassSaltPepper2);
 
                 String UserPassSaltPepper = BCrypt.hashpw(UserPassPepper, dbPassword);
-System.out.println(UserPassSaltPepper);
-System.out.println(dbPassword);
-                if (dbPassword == null || UserPassSaltPepper == null || !dbPassword.equals(UserPassSaltPepper)) {
-                    status = false;
+
+                if (dbPassword != null && UserPassSaltPepper != null && dbPassword.equals(UserPassSaltPepper)) {
+                    UserPass = UserPassSaltPepper;
                 }
                 con.close();
             } catch (Exception e) {
                 System.out.println(e);
-                status = false;
             }
         }
-System.out.println(status);   
-        return status;
+System.out.println(UserPass);   
+        return UserPass;
     }
 
     public static boolean CheckIfAlready(String UserName) {

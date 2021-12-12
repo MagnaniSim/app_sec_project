@@ -164,10 +164,10 @@ public class UserLogin extends javax.swing.JFrame {
         User = username.getText();
         String Pass = String.valueOf(password.getPassword());
         System.out.println(User + " " + Pass);
-        UsersDao.validate(User, Pass);
-        if (UsersDao.validate(User, Pass)) {
+        String UserPassSaltPepper = UsersDao.validate(User, Pass);
+        if (UserPassSaltPepper != null) {
             this.dispose();
-            UserLoginSuccess.main(new String[]{User, Pass});
+            UserLoginSuccess.main(new String[]{User, UserPassSaltPepper});
 
         } else {
             JOptionPane.showMessageDialog(UserLogin.this, "Sorry, Username or Password Error", "Login Error!", JOptionPane.ERROR_MESSAGE);
