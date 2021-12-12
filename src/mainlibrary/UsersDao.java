@@ -38,13 +38,6 @@ System.out.println(status);
         if (status) {
             try {
                 String dbPassword = rs.getString("UserPass");
-                
-//        String salt = BCrypt.gensalt();
-//        String UserPassPepper2 = System.getProperty("pwdPepper") + dbPassword;
-//        String UserPassSaltPepper2 = BCrypt.hashpw(UserPassPepper2, salt);
-//        System.out.println(UserPassPepper2);
-//        System.out.println(salt);
-//        System.out.println(UserPassSaltPepper2);
 
                 String UserPassSaltPepper = BCrypt.hashpw(UserPassPepper, dbPassword);
 

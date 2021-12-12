@@ -123,7 +123,8 @@ public class DeleteBook extends javax.swing.JFrame {
         // TODO add your handling code here:
         String Pass = String.valueOf(password.getPassword());
         System.out.println(UserName.getText() + " " + Pass );
-        if (LibrarianDao.validate(UserName.getText(), Pass)) {
+        String LibrarianPassSaltPepper = LibrarianDao.validate(UserName.getText(), Pass);
+        if (LibrarianPassSaltPepper != null) {
 
             int BookIDV = Integer.parseInt(BookID.getText());
             if (TransBookDao.CheckIssuedBook(BookIDV)) {

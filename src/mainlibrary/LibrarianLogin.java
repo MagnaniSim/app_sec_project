@@ -169,10 +169,11 @@ public class LibrarianLogin extends javax.swing.JFrame {
         String Pass;
         Pass = String.valueOf(password.getPassword());
         System.out.println(Uname + " " + Pass);
-        if (LibrarianDao.validate(Uname, Pass)) {
+        String LibrarianPassSaltPepper = LibrarianDao.validate(Uname, Pass);
+        if (LibrarianPassSaltPepper != null) {
 
             this.dispose();
-            LibrarianSuccess.main(new String[]{Uname, Pass});
+            LibrarianSuccess.main(new String[]{Uname, LibrarianPassSaltPepper});
 
         } else {
             JOptionPane.showMessageDialog(LibrarianLogin.this, "Sorry, Username or Password Error", "Login Error!", JOptionPane.ERROR_MESSAGE);
