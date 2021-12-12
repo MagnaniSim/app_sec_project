@@ -16,7 +16,6 @@ import java.util.Properties;
  */
 public class DB {
 
-    public static String user = "user";
     public static String connection = "jdbc:mysql://localhost:3306/library";
     
     public static Connection getConnection() {

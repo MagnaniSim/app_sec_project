@@ -29,14 +29,15 @@ public class SecretsReader {
 		throw new FileNotFoundException("Secret property file '" + secretPropFileName + "' not found in the classpath");
             }
 
-            // get the property value and print it out
+            // get the secrets...
             String dbUsername = prop.getProperty("DB_USERNAME");
             String dbPassword = prop.getProperty("DB_PASSWORD");
+            String pwdPepper = prop.getProperty("PWD_PEPPER");
  
-            //after values are loaded you can do anything with them
-            //here I will set them as System properties
+            //...and make them global variables
             System.setProperty("dbUsername",dbUsername);
             System.setProperty("dbPassword",dbPassword);
+            System.setProperty("pwdPepper", pwdPepper);
             
 //            System.out.println(System.getProperty("dbUsername"));
 //            System.out.println(System.getProperty("dbPassword"));

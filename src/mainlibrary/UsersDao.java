@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import BCrypt.*;
 
 /**
  *
@@ -18,17 +19,45 @@ public class UsersDao {
 
     public static boolean validate(String name, String password) {
         boolean status = false;
+        ResultSet rs = null;
+        Connection con = null;
+        
+        String UserPassPepper = System.getProperty("pwdPepper") + password; 
+        
         try {
-            Connection con = DB.getConnection();
-            PreparedStatement ps = con.prepareStatement("select * from Users where UserName=? and UserPass=?");
+            con = DB.getConnection();
+            PreparedStatement ps = con.prepareStatement("select * from Users where UserName=?");
             ps.setString(1, name);
-            ps.setString(2, password);
-            ResultSet rs = ps.executeQuery();        
+            rs = ps.executeQuery();        
             status = rs.next();
-            con.close();
         } catch (Exception e) {
             System.out.println(e);
+            status = false;
         }
+System.out.println(status);
+        if (status) {
+            try {
+                String dbPassword = rs.getString("UserPass");
+//        String salt = BCrypt.gensalt();
+//        String UserPassPepper2 = System.getProperty("pwdPepper") + dbPassword;
+//        String UserPassSaltPepper2 = BCrypt.hashpw(UserPassPepper2, salt);
+//        System.out.println(UserPassPepper2);
+//        System.out.println(salt);
+//        System.out.println(UserPassSaltPepper2);
+
+                String UserPassSaltPepper = BCrypt.hashpw(UserPassPepper, dbPassword);
+System.out.println(UserPassSaltPepper);
+System.out.println(dbPassword);
+                if (dbPassword == null || UserPassSaltPepper == null || !dbPassword.equals(UserPassSaltPepper)) {
+                    status = false;
+                }
+                con.close();
+            } catch (Exception e) {
+                System.out.println(e);
+                status = false;
+            }
+        }
+System.out.println(status);   
         return status;
     }
 
@@ -52,11 +81,16 @@ public class UsersDao {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
         int status = 0;
+        
+        String salt = BCrypt.gensalt();
+        String UserPassPepper = System.getProperty("pwdPepper") + UserPass;
+        String UserPassSaltPepper = BCrypt.hashpw(UserPassPepper, salt);        
+        
         try {
 
             Connection con = DB.getConnection();
             PreparedStatement ps = con.prepareStatement("insert into Users(UserPass,RegDate,UserName,Email) values(?,?,?,?)");
-            ps.setString(1, UserPass);
+            ps.setString(1, UserPassSaltPepper);
             ps.setString(2, Date);
             ps.setString(3, User);
             ps.setString(4, UserEmail);
