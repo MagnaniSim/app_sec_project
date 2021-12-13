@@ -73,6 +73,7 @@ public class UserView extends javax.swing.JFrame {
             }
 
             //count++;
+            rs.close();
             Con.close();
         } catch (Exception e) {
             System.out.println(e);

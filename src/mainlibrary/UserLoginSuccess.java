@@ -251,9 +251,7 @@ public class UserLoginSuccess extends javax.swing.JFrame {
 
         String User = args[0];
         String Pass = args[1];
-        try {
-            Connection Con;
-            Con = DB.getConnection();
+        try (Connection Con = DB.getConnection()) {
             PreparedStatement ps;
             ps = Con.prepareStatement("select * from Users where UserName=? and UserPass=?");
             ps.setString(1, User);
@@ -265,6 +263,7 @@ public class UserLoginSuccess extends javax.swing.JFrame {
             GetRegDate = rs.getString("RegDate");
             GetEmail = rs.getString("Email");
             GetUserID = rs.getString("UserID");
+            rs.close();
             Con.close();
 
         } catch (Exception f) {

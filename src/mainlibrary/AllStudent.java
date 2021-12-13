@@ -52,6 +52,7 @@ public class AllStudent extends javax.swing.JFrame {
                 model.addRow(Row);
             }
 
+            rs.close();
             Con.close();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -290,7 +291,8 @@ public class AllStudent extends javax.swing.JFrame {
                     model.addRow(NoRow);
 
                 }
-
+                
+                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
@@ -331,6 +333,8 @@ public class AllStudent extends javax.swing.JFrame {
                     model.addRow(NoRow);
 
                 }
+                
+                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
@@ -376,6 +380,7 @@ public class AllStudent extends javax.swing.JFrame {
                 model.addRow(Row);
             }
 
+            rs.close();
             Con.close();
         } catch (Exception e) {
             System.out.println(e);

@@ -12,9 +12,7 @@ public class LibrarianDao {
         String UserPassPepper = System.getProperty("pwdPepper") + password;
         String UserPassSaltPepper = BCrypt.hashpw(UserPassPepper, salt);    
         
-        try {
-
-            Connection con = DB.getConnection();
+        try (Connection con = DB.getConnection()) {
             PreparedStatement ps = con.prepareStatement("insert into librarian(name,password,email,address,city,contact) values(?,?,?,?,?,?)");
             ps.setString(1, name);
             ps.setString(2, UserPassSaltPepper);
@@ -32,8 +30,7 @@ public class LibrarianDao {
 
     public static int delete(int id) {
         int status = 0;
-        try {
-            Connection con = DB.getConnection();
+        try (Connection con = DB.getConnection()) {
             PreparedStatement ps = con.prepareStatement("delete from Librarian where id=?");
             ps.setInt(1, id);
             status = ps.executeUpdate();
@@ -48,23 +45,16 @@ public class LibrarianDao {
         String LibrarianPass = null;
         boolean status = false;
         ResultSet rs = null;
-        Connection con = null;
 
         String LibrarianPassPepper = System.getProperty("pwdPepper") + password;        
         
-        try {
-            con = DB.getConnection();
-            
+        try (Connection con = DB.getConnection()) {       
             PreparedStatement ps = con.prepareStatement("select * from Librarian where UserName=?");
             ps.setString(1, name);
             rs = ps.executeQuery();               
             status = rs.next();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        if (status) {
-            try {
+            
+            if (status) {
                 String dbPassword = rs.getString("Password");
 
                 String LibrarianPassSaltPepper = BCrypt.hashpw(LibrarianPassPepper, dbPassword);
@@ -72,10 +62,12 @@ public class LibrarianDao {
                 if (dbPassword != null && LibrarianPassSaltPepper != null && dbPassword.equals(LibrarianPassSaltPepper)) {
                     LibrarianPass = LibrarianPassSaltPepper;
                 }
-                con.close();
-            } catch (Exception e) {
-                System.out.println(e);
             }
+            
+            rs.close();
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
         }
   
         return LibrarianPass;

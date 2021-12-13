@@ -21,22 +21,16 @@ public class UsersDao {
         String UserPass = null;
         boolean status = false;
         ResultSet rs = null;
-        Connection con = null;
         
         String UserPassPepper = System.getProperty("pwdPepper") + password; 
         
-        try {
-            con = DB.getConnection();
+        try (Connection con = DB.getConnection()) {
             PreparedStatement ps = con.prepareStatement("select * from Users where UserName=?");
             ps.setString(1, name);
             rs = ps.executeQuery();        
             status = rs.next();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        if (status) {
-            try {
+            
+            if (status) {
                 String dbPassword = rs.getString("UserPass");
 
                 String UserPassSaltPepper = BCrypt.hashpw(UserPassPepper, dbPassword);
@@ -44,10 +38,12 @@ public class UsersDao {
                 if (dbPassword != null && UserPassSaltPepper != null && dbPassword.equals(UserPassSaltPepper)) {
                     UserPass = UserPassSaltPepper;
                 }
-                con.close();
-            } catch (Exception e) {
-                System.out.println(e);
             }
+            
+            rs.close();
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
         }
         
         return UserPass;
@@ -55,12 +51,12 @@ public class UsersDao {
 
     public static boolean CheckIfAlready(String UserName) {
         boolean status = false;
-        try {
-            Connection con = DB.getConnection();
+        try (Connection con = DB.getConnection()) {
             PreparedStatement ps = con.prepareStatement("select * from Users where UserName=?");
             ps.setString(1, UserName);
             ResultSet rs = ps.executeQuery();            
             status = rs.next();
+            rs.close();
             con.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -78,9 +74,7 @@ public class UsersDao {
         String UserPassPepper = System.getProperty("pwdPepper") + UserPass;
         String UserPassSaltPepper = BCrypt.hashpw(UserPassPepper, salt);        
         
-        try {
-
-            Connection con = DB.getConnection();
+        try (Connection con = DB.getConnection()) {
             PreparedStatement ps = con.prepareStatement("insert into Users(UserPass,RegDate,UserName,Email) values(?,?,?,?)");
             ps.setString(1, UserPassSaltPepper);
             ps.setString(2, Date);

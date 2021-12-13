@@ -376,9 +376,7 @@ public class LibrarianSuccess extends javax.swing.JFrame {
         });
         String User = args[0];
         String Pass = args[1];
-        try {
-            Connection Con;
-            Con = DB.getConnection();
+        try (Connection Con = DB.getConnection()) {
             PreparedStatement ps;
             ps = Con.prepareStatement("select * from Librarian where UserName=? and Password=?");
             ps.setString(1, User);
@@ -390,6 +388,8 @@ public class LibrarianSuccess extends javax.swing.JFrame {
             LibrarianID = rs.getString("LibrarianID");
             Email = rs.getString("Email");
             System.out.println(Name + " " + LibrarianID + " " + Email);
+            
+            rs.close();
             Con.close();
 
         } catch (Exception f) {

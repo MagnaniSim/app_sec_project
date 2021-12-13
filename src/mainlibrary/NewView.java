@@ -69,6 +69,7 @@ public class NewView extends javax.swing.JFrame {
             }
 
             //count++;
+            rs.close();
             Con.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -295,6 +296,7 @@ public class NewView extends javax.swing.JFrame {
                 }
 
                 //count++;
+                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
@@ -341,6 +343,8 @@ public class NewView extends javax.swing.JFrame {
                 }
 
                 //count++;
+                
+                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
@@ -387,6 +391,8 @@ public class NewView extends javax.swing.JFrame {
                 }
 
                 //count++;
+                
+                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
@@ -450,6 +456,8 @@ public class NewView extends javax.swing.JFrame {
             }
 
             //count++;
+            
+            rs.close();
             Con.close();
         } catch (Exception e) {
             System.out.println(e);
