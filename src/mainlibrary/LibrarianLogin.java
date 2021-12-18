@@ -182,7 +182,7 @@ public class LibrarianLogin extends javax.swing.JFrame {
             return;
         }
         String Pass = scanPwd.next();
-        System.out.println(Uname + " " + Pass);
+
         String LibrarianPassSaltPepper = LibrarianDao.validate(Uname, Pass);
         if (LibrarianPassSaltPepper != null) {
 

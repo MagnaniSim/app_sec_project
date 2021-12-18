@@ -277,7 +277,7 @@ public class AllStudent extends javax.swing.JFrame {
                     model.addRow(Row);
                 }
                 int rowcount = model.getRowCount();
-                System.out.println(rowcount);
+
                 if (rowcount == 0) {
                     String NoRow[];
                     NoRow = new String[7];
@@ -319,7 +319,7 @@ public class AllStudent extends javax.swing.JFrame {
                     model.addRow(Row);
                 }
                 int rowcount = model.getRowCount();
-                System.out.println(rowcount);
+
                 if (rowcount == 0) {
                     String NoRow[];
                     NoRow = new String[7];

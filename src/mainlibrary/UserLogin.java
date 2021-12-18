@@ -178,7 +178,7 @@ public class UserLogin extends javax.swing.JFrame {
             return;
         }
         String Pass = scanPwd.next();
-        System.out.println(User + " " + Pass);
+
         String UserPassSaltPepper = UsersDao.validate(User, Pass);
         if (UserPassSaltPepper != null) {
             this.dispose();

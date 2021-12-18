@@ -136,7 +136,6 @@ public class TransBookDao {
             rs.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("FUMATE" + e);
             return 0;
         }
         if ((num == 5 || !status)) {

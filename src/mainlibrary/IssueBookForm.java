@@ -286,8 +286,6 @@ public class IssueBookForm extends javax.swing.JFrame {
         }      
         
         String RFDate = RYearV.toString() + "-" + RMonthV.toString()+ "-" + RDateV.toString();
-        System.out.println(IFDate);
-        System.out.println(RFDate);
 
         //Date IFDDate = cal.getDate();
         if (TransBookDao.BookValidate(BookIDV) && TransBookDao.UserValidate(UserIDV)) {

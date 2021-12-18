@@ -70,7 +70,6 @@ public class UserViewBook extends javax.swing.JFrame {
                         } else {
                             Row[i - 1] = "Issued";
                         }
-                        System.out.println(rs.getString(i));
                     } else {
                         Row[i - 1] = rs.getString(i);
                     }
@@ -310,7 +309,6 @@ public class UserViewBook extends javax.swing.JFrame {
 
                             }
 
-                            System.out.println(rs.getString(i));
                         } else {
                             Row[i - 1] = rs.getString(i);
                         }
@@ -319,7 +317,6 @@ public class UserViewBook extends javax.swing.JFrame {
 
                 }
                 int rowcount = model.getRowCount();
-                System.out.println(rowcount);
                 if (rowcount == 0) {
                     String NoRow[];
                     NoRow = new String[7];
@@ -370,7 +367,6 @@ public class UserViewBook extends javax.swing.JFrame {
                                 Row[i - 1] = "Issued";
                                 model.addRow(Row);
                             }
-                            System.out.println(rs.getString(i));
                         } else {
                             Row[i - 1] = rs.getString(i);
                         }
@@ -378,7 +374,6 @@ public class UserViewBook extends javax.swing.JFrame {
 
                 }
                 int rowcount = model.getRowCount();
-                System.out.println(rowcount);
                 if (rowcount == 0) {
                     String NoRow[];
                     NoRow = new String[7];
@@ -486,7 +481,6 @@ public class UserViewBook extends javax.swing.JFrame {
                             Row[i - 1] = "Issued";
                             model.addRow(Row);
                         }
-                        System.out.println(rs.getString(i));
                     } else {
                         Row[i - 1] = rs.getString(i);
                     }

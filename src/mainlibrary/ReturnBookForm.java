@@ -200,7 +200,6 @@ public class ReturnBookForm extends javax.swing.JFrame {
         Integer UserIDV = scanUserIDV.nextInt();
 
         String IFDate = IYear.getText() + "-" + IMonth.getText() + "-" + IDate.getText();
-        System.out.println(IFDate);
 
         //Date IFDDate = cal.getDate();
         if (TransBookDao.BookValidate(BookIDV) && TransBookDao.UserValidate(UserIDV)) {

@@ -387,7 +387,6 @@ public class LibrarianSuccess extends javax.swing.JFrame {
             Name = rs.getString("FullName");
             LibrarianID = rs.getString("LibrarianID");
             Email = rs.getString("Email");
-            System.out.println(Name + " " + LibrarianID + " " + Email);
             
             rs.close();
             Con.close();

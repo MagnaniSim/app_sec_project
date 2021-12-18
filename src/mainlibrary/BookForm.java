@@ -311,12 +311,7 @@ public class BookForm extends javax.swing.JFrame {
                 ; // JOptionPane.showMessageDialog(BookForm.this, "Sorry, Publisher can't be added!","Publisher Error!", JOptionPane.ERROR_MESSAGE);
             }
         }
-        System.out.println(BookN);
-        System.out.println(AuthorN);
-        System.out.println(PublisherN);
-        System.out.println(ShelfN);
-        System.out.println(RowN);
-        System.out.println(GenreN);
+
         if (BookDao.SaveBook(BookN, AuthorN, PublisherN, ShelfN, RowN, GenreN) != 0) {
             JOptionPane.showMessageDialog(BookForm.this, "The Book is added!", "Book Added!", JOptionPane.ERROR_MESSAGE);
             BookName.setText("");
