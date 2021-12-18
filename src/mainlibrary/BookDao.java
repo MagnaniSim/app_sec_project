@@ -39,16 +39,25 @@ public static int save(String callno,String name,String author,String publisher,
     public static boolean PublisherValidate( String Publisher)
 {
     PreparedStatement ps = null;
+    ResultSet rs = null;
     boolean status = false;
     try(Connection con = DB.getConnection()) {
         ps = con.prepareStatement("select * from Publisher where PublisherName = ?"); 
         ps.setString(1, Publisher);
-        ResultSet rs=ps.executeQuery();
+        rs=ps.executeQuery();
         status=rs.next();
         con.close();
     }catch(Exception e){
 		System.out.println(e);
 	} finally {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
         if (ps != null) {
             try {
                 ps.close();
