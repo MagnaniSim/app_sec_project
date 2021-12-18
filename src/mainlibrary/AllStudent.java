@@ -29,6 +29,9 @@ public class AllStudent extends javax.swing.JFrame {
      * @throws java.sql.SQLException
      */
     public AllStudent() throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null ;
+                
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         initComponents();
         DefaultTableModel model;
@@ -36,8 +39,8 @@ public class AllStudent extends javax.swing.JFrame {
         // String Data[][]=null;
         //  String Column[]=null;
         try (Connection Con = DB.getConnection()) {
-            PreparedStatement ps = Con.prepareStatement("select * from Users", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = ps.executeQuery();
+            ps = Con.prepareStatement("select * from Users", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = ps.executeQuery();
 
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -51,11 +54,26 @@ public class AllStudent extends javax.swing.JFrame {
                 }
                 model.addRow(Row);
             }
-
-            rs.close();
+            
             Con.close();
         } catch (Exception e) {
             e.printStackTrace(System.out);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
+
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
         }
     }
 
@@ -239,7 +257,8 @@ public class AllStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_NameRadioActionPerformed
 
     private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
-        // TODO add your handling code here:
+        PreparedStatement ps = null;
+        ResultSet rs = null ;
 
         DefaultTableModel model;
         model = (DefaultTableModel) jTable1.getModel();
@@ -259,9 +278,9 @@ public class AllStudent extends javax.swing.JFrame {
             //  String Column[]=null;
             String Search = "%" + searchStr + "%";
             try (Connection Con = DB.getConnection()) {
-                PreparedStatement ps = Con.prepareStatement("select * from Users where UserName like ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = Con.prepareStatement("select * from Users where UserName like ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, Search);
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
 
                 ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -292,18 +311,33 @@ public class AllStudent extends javax.swing.JFrame {
 
                 }
                 
-                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
+            } finally {
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
+                }
+    
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
+                }
             }
         } else if (AuthorRadio.isSelected()) {
 
             String Search = "%" + searchStr + "%";
             try (Connection Con = DB.getConnection()) {
-                PreparedStatement ps = Con.prepareStatement("select * from Users where Email like ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = Con.prepareStatement("select * from Users where Email like ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, Search);
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
 
                 ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -334,10 +368,25 @@ public class AllStudent extends javax.swing.JFrame {
 
                 }
                 
-                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
+            } finally {
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
+                }
+    
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
+                }
             }
         } else {
 
@@ -353,7 +402,9 @@ public class AllStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_AuthorRadioActionPerformed
 
     private void ALLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ALLActionPerformed
-        // TODO add your handling code here:
+        PreparedStatement ps = null;
+        ResultSet rs = null ;
+		
         NameRadio.setSelected(false);
         AuthorRadio.setSelected(false);
         SearchField.setText("");
@@ -364,8 +415,8 @@ public class AllStudent extends javax.swing.JFrame {
         }
 
         try (Connection Con = DB.getConnection()) {
-            PreparedStatement ps = Con.prepareStatement("select * from Users", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = ps.executeQuery();
+            ps = Con.prepareStatement("select * from Users", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = ps.executeQuery();
 
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -380,10 +431,25 @@ public class AllStudent extends javax.swing.JFrame {
                 model.addRow(Row);
             }
 
-            rs.close();
             Con.close();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
+
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
         }
     }//GEN-LAST:event_ALLActionPerformed
 

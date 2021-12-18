@@ -39,9 +39,11 @@ public class UserViewBook extends javax.swing.JFrame {
         model = (DefaultTableModel) jTable1.getModel();
         // String Data[][]=null;
         //  String Column[]=null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try (Connection Con = DB.getConnection()) {
-            PreparedStatement ps = Con.prepareStatement("select Books.BookID, Books.BookName,Books.Genre,Books.Author,Books.Publisher, Books.Row,Books.Shelf, IssuedBook.UserID from Books left outer join IssuedBook on Books.BookID= IssuedBook.BookID;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = ps.executeQuery();
+            ps = Con.prepareStatement("select Books.BookID, Books.BookName,Books.Genre,Books.Author,Books.Publisher, Books.Row,Books.Shelf, IssuedBook.UserID from Books left outer join IssuedBook on Books.BookID= IssuedBook.BookID;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = ps.executeQuery();
 
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -80,10 +82,25 @@ public class UserViewBook extends javax.swing.JFrame {
             }
 
             //count++;
-            rs.close();
             Con.close();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
         }
     }
 
@@ -252,7 +269,8 @@ public class UserViewBook extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
-        // TODO add your handling code here:
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         Scanner scanSearch = new Scanner(SearchField.getText()).useDelimiter("\n");  // Create a Scanner object
         if (!scanSearch.hasNext("^[A-Za-z0-9 .]*$")) {
             JOptionPane.showMessageDialog(UserViewBook.this, "Search Filed is Empty or nor allowed characters", "Search Error!", JOptionPane.ERROR_MESSAGE);
@@ -283,9 +301,9 @@ public class UserViewBook extends javax.swing.JFrame {
             //  String Column[]=null;
             String Search = "%" + search + "%";
             try (Connection Con = DB.getConnection()) {
-                PreparedStatement ps = Con.prepareStatement("select A.BookID, A.BookName,A.Genre,A.Author,A.Publisher, A.Row,A.Shelf, IssuedBook.UserID from (select * from Books where BookName like ?) as A left outer join IssuedBook on A.BookID= IssuedBook.BookID", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = Con.prepareStatement("select A.BookID, A.BookName,A.Genre,A.Author,A.Publisher, A.Row,A.Shelf, IssuedBook.UserID from (select * from Books where BookName like ?) as A left outer join IssuedBook on A.BookID= IssuedBook.BookID", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, Search);
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
 
                 ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -332,7 +350,6 @@ public class UserViewBook extends javax.swing.JFrame {
                 }
 
                 //count++;
-                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
@@ -343,9 +360,9 @@ public class UserViewBook extends javax.swing.JFrame {
             //  String Column[]=null;
             String Search = "%" + search + "%";
             try (Connection Con = DB.getConnection()) {
-                PreparedStatement ps = Con.prepareStatement("select A.BookID, A.BookName,A.Genre,A.Author,A.Publisher, A.Row,A.Shelf, IssuedBook.UserID from (select * from Books where Author like ?) as A left outer join IssuedBook on A.BookID= IssuedBook.BookID", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = Con.prepareStatement("select A.BookID, A.BookName,A.Genre,A.Author,A.Publisher, A.Row,A.Shelf, IssuedBook.UserID from (select * from Books where Author like ?) as A left outer join IssuedBook on A.BookID= IssuedBook.BookID", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, Search);
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
 
                 ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -389,10 +406,25 @@ public class UserViewBook extends javax.swing.JFrame {
                 }
 
                 //count++;
-                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
+            } finally {
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
+    
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
             }
         } else {
 
@@ -445,9 +477,11 @@ public class UserViewBook extends javax.swing.JFrame {
         }
         // String Data[][]=null;
         //  String Column[]=null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try (Connection Con = DB.getConnection()) {
-            PreparedStatement ps = Con.prepareStatement("select Books.BookID, Books.BookName,Books.Genre,Books.Author,Books.Publisher, Books.Row,Books.Shelf, IssuedBook.UserID from Books left outer join IssuedBook on Books.BookID= IssuedBook.BookID;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = ps.executeQuery();
+            ps = Con.prepareStatement("select Books.BookID, Books.BookName,Books.Genre,Books.Author,Books.Publisher, Books.Row,Books.Shelf, IssuedBook.UserID from Books left outer join IssuedBook on Books.BookID= IssuedBook.BookID;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = ps.executeQuery();
 
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -490,10 +524,25 @@ public class UserViewBook extends javax.swing.JFrame {
             }
 
             //count++;
-            rs.close();
             Con.close();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
         }
     }//GEN-LAST:event_ShowALLActionPerformed
 

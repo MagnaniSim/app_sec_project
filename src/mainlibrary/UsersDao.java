@@ -21,11 +21,12 @@ public class UsersDao {
         String UserPass = null;
         boolean status = false;
         ResultSet rs = null;
+        PreparedStatement ps = null;
         
         String UserPassPepper = System.getProperty("pwdPepper") + password; 
         
         try (Connection con = DB.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select * from Users where UserName=?");
+            ps = con.prepareStatement("select * from Users where UserName=?");
             ps.setString(1, name);
             rs = ps.executeQuery();        
             status = rs.next();
@@ -40,10 +41,25 @@ public class UsersDao {
                 }
             }
             
-            rs.close();
             con.close();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
         }
         
         return UserPass;
@@ -51,15 +67,32 @@ public class UsersDao {
 
     public static boolean CheckIfAlready(String UserName) {
         boolean status = false;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try (Connection con = DB.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select * from Users where UserName=?");
+            ps = con.prepareStatement("select * from Users where UserName=?");
             ps.setString(1, UserName);
-            ResultSet rs = ps.executeQuery();            
+            rs = ps.executeQuery();            
             status = rs.next();
-            rs.close();
             con.close();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
         }
         return status;
 
@@ -72,10 +105,11 @@ public class UsersDao {
         
         String salt = BCrypt.gensalt();
         String UserPassPepper = System.getProperty("pwdPepper") + UserPass;
-        String UserPassSaltPepper = BCrypt.hashpw(UserPassPepper, salt);        
+        String UserPassSaltPepper = BCrypt.hashpw(UserPassPepper, salt);  
+        PreparedStatement ps = null;        
         
         try (Connection con = DB.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("insert into Users(UserPass,RegDate,UserName,Email) values(?,?,?,?)");
+            ps = con.prepareStatement("insert into Users(UserPass,RegDate,UserName,Email) values(?,?,?,?)");
             ps.setString(1, UserPassSaltPepper);
             ps.setString(2, Date);
             ps.setString(3, User);
@@ -85,6 +119,14 @@ public class UsersDao {
         } catch (Exception e) {
             System.out.println(e);
             status = 0;
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
         }
         return status;
 

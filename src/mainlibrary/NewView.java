@@ -69,7 +69,6 @@ public class NewView extends javax.swing.JFrame {
             }
 
             //count++;
-            rs.close();
             Con.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -242,7 +241,8 @@ public class NewView extends javax.swing.JFrame {
     }//GEN-LAST:event_SearchFieldActionPerformed
 
     private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
-        // TODO add your handling code here:
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
         DefaultTableModel model;
         model = (DefaultTableModel) jTable1.getModel();
@@ -262,9 +262,9 @@ public class NewView extends javax.swing.JFrame {
             //  String Column[]=null;
             String Search = "%" + searchStr + "%";
             try (Connection Con = DB.getConnection()) {
-                PreparedStatement ps = Con.prepareStatement("select IssuedBook.BookID,IssuedBook.UserID,Books.BookName , IssuedBook.IssueDate, IssuedBook.ReturnDate from Books,IssuedBook where Books.BookID=IssuedBook.BookID and Books.BookName like ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = Con.prepareStatement("select IssuedBook.BookID,IssuedBook.UserID,Books.BookName , IssuedBook.IssueDate, IssuedBook.ReturnDate from Books,IssuedBook where Books.BookID=IssuedBook.BookID and Books.BookName like ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, Search);
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
 
                 ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -296,10 +296,25 @@ public class NewView extends javax.swing.JFrame {
                 }
 
                 //count++;
-                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
+            } finally {
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
+                }
+    
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
+                }
             }
         } else if (BookIDRadio.isSelected()) {
 
@@ -309,9 +324,9 @@ public class NewView extends javax.swing.JFrame {
             int BookIDV;
             BookIDV = Integer.parseInt(Search);
             try (Connection Con = DB.getConnection()) {
-                PreparedStatement ps = Con.prepareStatement("select IssuedBook.BookID,IssuedBook.UserID,Books.BookName , IssuedBook.IssueDate, IssuedBook.ReturnDate from Books,IssuedBook where Books.BookID=IssuedBook.BookID and IssuedBook.BookID=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = Con.prepareStatement("select IssuedBook.BookID,IssuedBook.UserID,Books.BookName , IssuedBook.IssueDate, IssuedBook.ReturnDate from Books,IssuedBook where Books.BookID=IssuedBook.BookID and IssuedBook.BookID=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setInt(1, BookIDV);
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
 
                 ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -344,10 +359,25 @@ public class NewView extends javax.swing.JFrame {
 
                 //count++;
                 
-                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
+            } finally {
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
+                }
+    
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
+                }
             }
         } else if (UserIDRadio.isSelected()) {
 
@@ -357,9 +387,9 @@ public class NewView extends javax.swing.JFrame {
             int UserIDV;
             UserIDV = Integer.parseInt(Search);
             try (Connection Con = DB.getConnection()) {
-                PreparedStatement ps = Con.prepareStatement("select IssuedBook.BookID,IssuedBook.UserID,Books.BookName , IssuedBook.IssueDate, IssuedBook.ReturnDate from Books,IssuedBook where Books.BookID=IssuedBook.BookID and IssuedBook.UserID=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = Con.prepareStatement("select IssuedBook.BookID,IssuedBook.UserID,Books.BookName , IssuedBook.IssueDate, IssuedBook.ReturnDate from Books,IssuedBook where Books.BookID=IssuedBook.BookID and IssuedBook.UserID=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setInt(1, UserIDV);
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
 
                 ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -392,10 +422,25 @@ public class NewView extends javax.swing.JFrame {
 
                 //count++;
                 
-                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
+            } finally {
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
+                }
+    
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
+                }
             }
         } else {
 
@@ -419,7 +464,8 @@ public class NewView extends javax.swing.JFrame {
     }//GEN-LAST:event_NameRadioActionPerformed
 
     private void ALLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ALLActionPerformed
-        // TODO add your handling code here:
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         SearchField.setText("");
         DefaultTableModel model;
         model = (DefaultTableModel) jTable1.getModel();
@@ -427,8 +473,8 @@ public class NewView extends javax.swing.JFrame {
             model.removeRow(model.getRowCount() - 1);
         }
         try (Connection Con = DB.getConnection()) {
-            PreparedStatement ps = Con.prepareStatement("select IssuedBook.BookID,IssuedBook.UserID,Books.BookName , IssuedBook.IssueDate, IssuedBook.ReturnDate from Books,IssuedBook where Books.BookID=IssuedBook.BookID;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = ps.executeQuery();
+            ps = Con.prepareStatement("select IssuedBook.BookID,IssuedBook.UserID,Books.BookName , IssuedBook.IssueDate, IssuedBook.ReturnDate from Books,IssuedBook where Books.BookID=IssuedBook.BookID;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = ps.executeQuery();
 
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -457,10 +503,25 @@ public class NewView extends javax.swing.JFrame {
 
             //count++;
             
-            rs.close();
             Con.close();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
+
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
         }
     }//GEN-LAST:event_ALLActionPerformed
 

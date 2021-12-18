@@ -38,9 +38,11 @@ public class ViewBook extends javax.swing.JFrame {
         model = (DefaultTableModel) jTable1.getModel();
         // String Data[][]=null;
         //  String Column[]=null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try (Connection Con = DB.getConnection()) {
-            PreparedStatement ps = Con.prepareStatement("select * from Books", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = ps.executeQuery();
+            ps = Con.prepareStatement("select * from Books", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = ps.executeQuery();
 
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -70,10 +72,25 @@ public class ViewBook extends javax.swing.JFrame {
             }
 
             //count++;
-            rs.close();
             Con.close();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
         }
     }
 
@@ -276,10 +293,12 @@ public class ViewBook extends javax.swing.JFrame {
             // String Data[][]=null;
             //  String Column[]=null;
             String Search = "%" + search + "%";
+            PreparedStatement ps = null;
+            ResultSet rs = null;
             try (Connection Con = DB.getConnection()) {
-                PreparedStatement ps = Con.prepareStatement("select * from Books where BookName like ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = Con.prepareStatement("select * from Books where BookName like ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, Search);
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
 
                 ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -311,20 +330,37 @@ public class ViewBook extends javax.swing.JFrame {
                 }
 
                 //count++;
-                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
+            } finally {
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
+    
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
             }
         } else if (AuthorRadio.isSelected()) {
 
             // String Data[][]=null;
             //  String Column[]=null;
             String Search = "%" + search + "%";
+            PreparedStatement ps = null;
+            ResultSet rs = null;
             try (Connection Con = DB.getConnection()) {
-                PreparedStatement ps = Con.prepareStatement("select * from Books where Author like ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = Con.prepareStatement("select * from Books where Author like ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, Search);
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
 
                 ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -356,10 +392,25 @@ public class ViewBook extends javax.swing.JFrame {
                 }
 
                 //count++;
-                rs.close();
                 Con.close();
             } catch (Exception e) {
                 System.out.println(e);
+            } finally {
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
+    
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
             }
         } else {
 
@@ -399,9 +450,11 @@ public class ViewBook extends javax.swing.JFrame {
         }
         // String Data[][]=null;
         //  String Column[]=null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try (Connection Con = DB.getConnection()) {
-            PreparedStatement ps = Con.prepareStatement("select * from Books", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = ps.executeQuery();
+            ps = Con.prepareStatement("select * from Books", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = ps.executeQuery();
 
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -429,10 +482,25 @@ public class ViewBook extends javax.swing.JFrame {
             }
 
             //count++;
-            rs.close();
             Con.close();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
         }
     }//GEN-LAST:event_ALLActionPerformed
 

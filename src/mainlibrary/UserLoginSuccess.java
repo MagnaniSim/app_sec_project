@@ -251,23 +251,38 @@ public class UserLoginSuccess extends javax.swing.JFrame {
 
         String User = args[0];
         String Pass = args[1];
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try (Connection Con = DB.getConnection()) {
-            PreparedStatement ps;
             ps = Con.prepareStatement("select * from Users where UserName=? and UserPass=?");
             ps.setString(1, User);
             ps.setString(2, Pass);
-            ResultSet rs;
             rs = ps.executeQuery();
             boolean status = rs.next();
             GetName = User;
             GetRegDate = rs.getString("RegDate");
             GetEmail = rs.getString("Email");
             GetUserID = rs.getString("UserID");
-            rs.close();
             Con.close();
 
         } catch (Exception f) {
             System.out.println(f);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
         }
     }
 
